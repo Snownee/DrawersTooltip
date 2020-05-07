@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+[[mods]]
+modId="draweringredient"
+version="${file.jarVersion}"
+displayName="Drawers Tooltip"
+authors="Snownee"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/drawers-tooltip"
+description=""
