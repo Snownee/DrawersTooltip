@@ -36,6 +36,11 @@ public class DrawerIngredient extends Ingredient {
     }
 
     @Override
+    public Serializer getSerializer() {
+        return Serializer.INSTANCE;
+    }
+
+    @Override
     public boolean test(ItemStack stack) {
         if (!ModTags.DRAWERS.contains(stack.getItem())) {
             return false;
