@@ -15,9 +15,11 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class DrawerIngredient extends Ingredient {
 
@@ -91,6 +93,7 @@ public class DrawerIngredient extends Ingredient {
 
     private static class DrawerList implements Ingredient.IItemList {
 
+        public static final Item ITEM = ForgeRegistries.ITEMS.getValue(new ResourceLocation("storagedrawers", "oak_full_drawers_1"));
         private final Ingredient ingredient;
         private final int amount;
 
@@ -115,11 +118,11 @@ public class DrawerIngredient extends Ingredient {
 
             List<ItemStack> list = Lists.newArrayList();
 
-            for (Item item : ModTags.DRAWERS.getAllElements()) {
-                ItemStack stack = new ItemStack(item);
-                stack.setTag(tag);
-                list.add(stack);
-            }
+            //for (Item item : ModTags.DRAWERS.getAllElements()) {
+            ItemStack stack = new ItemStack(ITEM);
+            stack.setTag(tag);
+            list.add(stack);
+            //}
 
             if (list.size() == 0 && !net.minecraftforge.common.ForgeConfig.SERVER.treatEmptyTagsAsAir.get()) {
                 list.add(new ItemStack(net.minecraft.block.Blocks.BARRIER).setDisplayName(new net.minecraft.util.text.StringTextComponent("Empty Tag: " + ModTags.DRAWERS.getId().toString())));
