@@ -1,5 +1,6 @@
 package snownee.drawer;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -19,14 +20,21 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 @EventBusSubscriber(modid = TheMod.MODID, value = Dist.CLIENT)
 public final class Tooltip {
 
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###");
+
     private Tooltip() {}
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if (!ModTags.DRAWERS.contains(stack.getItem())) {
-            return;
+        if (ModTags.DRAWERS.contains(stack.getItem())) {
+            normalDrawer(event, stack);
+        } else if (ModTags.COMPACTING_DRAWERS.contains(stack.getItem())) {
+            compactingDrawer(event, stack);
         }
+    }
+
+    private static void normalDrawer(ItemTooltipEvent event, ItemStack stack) {
         try {
             CompoundNBT tile = stack.getChildTag("tile");
             if (tile == null || !tile.contains("Drawers")) {
@@ -40,7 +48,35 @@ public final class Tooltip {
                     continue;
                 }
                 int amount = tag.getInt("Count");
-                lines.add(new StringTextComponent(content.getDisplayName().getString() + " x" + amount));
+                lines.add(new StringTextComponent(content.getDisplayName().getString() + " x" + DECIMAL_FORMAT.format(amount)));
+            }
+            event.getToolTip().addAll(3, lines);
+        } catch (Exception e) {}
+    }
+
+    private static void compactingDrawer(ItemTooltipEvent event, ItemStack stack) {
+        try {
+            CompoundNBT tile = stack.getChildTag("tile");
+            if (tile == null || !tile.contains("Drawers")) {
+                return;
+            }
+            CompoundNBT drawersTag = tile.getCompound("Drawers");
+            int count = drawersTag.getInt("Count");
+            List<ITextComponent> lines = Lists.newArrayList();
+            for (INBT nbt : drawersTag.getList("Items", Constants.NBT.TAG_COMPOUND)) {
+                CompoundNBT tag = (CompoundNBT) nbt;
+                ItemStack content = ItemStack.read(tag.getCompound("Item"));
+                if (content.isEmpty()) {
+                    continue;
+                }
+                int conv = tag.getInt("Conv");
+                if (conv <= 0) {
+                    continue;
+                }
+                int amount = count / conv;
+                if (amount > 0) {
+                    lines.add(new StringTextComponent(content.getDisplayName().getString() + " x" + DECIMAL_FORMAT.format(amount)));
+                }
             }
             event.getToolTip().addAll(3, lines);
         } catch (Exception e) {}
