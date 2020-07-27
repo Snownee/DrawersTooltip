@@ -125,7 +125,7 @@ public class DrawerIngredient extends Ingredient {
             //}
 
             if (list.size() == 0 && !net.minecraftforge.common.ForgeConfig.SERVER.treatEmptyTagsAsAir.get()) {
-                list.add(new ItemStack(net.minecraft.block.Blocks.BARRIER).setDisplayName(new net.minecraft.util.text.StringTextComponent("Empty Tag: " + ModTags.DRAWERS.getId().toString())));
+                list.add(new ItemStack(net.minecraft.block.Blocks.BARRIER).setDisplayName(new net.minecraft.util.text.StringTextComponent("Empty Tag: " + ModTags.DRAWERS.getName().toString())));
             }
             return list;
         }
