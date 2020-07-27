@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[32,)"
 [[mods]]
-modId="draweringredient"
+modId="drawerstooltip"
 version="${file.jarVersion}"
 displayName="Drawers Tooltip"
 authors="Snownee"

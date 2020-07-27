@@ -13,8 +13,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(TheMod.MODID)
 public final class TheMod {
 
-    public static final String MODID = "draweringredient";
-    public static final String NAME = "Drawer Ingredient";
+    public static final String MODID = "drawerstooltip";
+    public static final String NAME = "Drawers Tooltip";
 
     public static Logger logger = LogManager.getLogger(NAME);
 
