@@ -12,20 +12,30 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber(modid = TheMod.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(Dist.CLIENT)
 public final class Tooltip {
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###");
+    private static boolean tagsUpdated;
 
     private Tooltip() {}
 
+    @SubscribeEvent
+    public static void onTagsUpdated(TagsUpdatedEvent event) {
+        tagsUpdated = true;
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onTooltip(ItemTooltipEvent event) {
+        if (!tagsUpdated) {
+            return;
+        }
         ItemStack stack = event.getItemStack();
         if (ModTags.DRAWERS.contains(stack.getItem())) {
             normalDrawer(event, stack);
