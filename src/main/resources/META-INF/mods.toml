@@ -13,3 +13,4 @@ description=""
 [[dependencies.drawerstooltip]]
     modId="storagedrawers"
     mandatory=true
+    versionRange="*"
