@@ -9,3 +9,7 @@ displayName="Drawers Tooltip"
 authors="Snownee"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/drawers-tooltip"
 description=""
+
+[[dependencies.drawerstooltip]]
+    modId="storagedrawers"
+    mandatory=true
