@@ -1,11 +1,11 @@
 package snownee.drawer;
 
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag.INamedTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.item.Item;
 
 public final class ModTags {
-    public static final INamedTag<Item> DRAWERS = ItemTags.createOptional(new ResourceLocation("storagedrawers:drawers"));
-    public static final INamedTag<Item> COMPACTING_DRAWERS = ItemTags.createOptional(new ResourceLocation("drawerstooltip:compacting_drawers"));
+	public static final Named<Item> DRAWERS = ItemTags.createOptional(new ResourceLocation("storagedrawers:drawers"));
+	public static final Named<Item> COMPACTING_DRAWERS = ItemTags.createOptional(new ResourceLocation("drawerstooltip:compacting_drawers"));
 }
