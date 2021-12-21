@@ -192,6 +192,7 @@ dependencies {
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 	
 	implementation fg.deobf("curse.maven:jade-324717:3544015")
+    implementation fg.deobf("curse.maven:storage-drawers-223852:3574029")
 	//implementation fg.deobf("curse.maven:kiwi-303657:3545683")
     //annotationProcessor "curse.maven:kiwi-303657:3545683"
 
