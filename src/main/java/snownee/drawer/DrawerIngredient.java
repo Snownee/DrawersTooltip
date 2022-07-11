@@ -46,7 +46,7 @@ public class DrawerIngredient extends Ingredient {
 
 	@Override
 	public boolean test(ItemStack stack) {
-		if (!ModTags.DRAWERS.contains(stack.getItem())) {
+		if (!stack.is(ModTags.DRAWERS)) {
 			return false;
 		}
 		try {
@@ -128,7 +128,7 @@ public class DrawerIngredient extends Ingredient {
 			//}
 
 			if (list.size() == 0 && !ForgeConfig.SERVER.treatEmptyTagsAsAir.get()) {
-				list.add(new ItemStack(Blocks.BARRIER).setHoverName(new TextComponent("Empty Tag: " + ModTags.DRAWERS.getName().toString())));
+				list.add(new ItemStack(Blocks.BARRIER).setHoverName(new TextComponent("Empty Tag: " + ModTags.DRAWERS.location().toString())));
 			}
 			return list;
 		}
