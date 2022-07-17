@@ -191,10 +191,10 @@ dependencies {
     //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 	
-    implementation fg.deobf("curse.maven:storage-drawers-223852:3693181")
-    implementation fg.deobf("curse.maven:jei-238222:3680288")
-    implementation fg.deobf("curse.maven:jade-324717:3671210")
-    implementation fg.deobf("curse.maven:kiwi-303657:3680619")
+    implementation fg.deobf("curse.maven:storage-drawers-223852:3878852")
+    //implementation fg.deobf("curse.maven:jei-238222:3680288")
+    implementation fg.deobf("curse.maven:jade-324717:3872400")
+    //implementation fg.deobf("curse.maven:kiwi-303657:3680619")
 
     // Examples using mod jars from ./libs
     //implementation fg.deobf("libs:Kiwi-1.18:5.0.0")
@@ -210,12 +210,7 @@ dependencies {
 
 // This block of code expands all the gradle properties in the specified resource targets.
 // It copies them into the targets and expands all the defined properties.
-def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta', "${mod_id}.mixins.json".toString()]
-def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
-def replaceProperties = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
-        mod_authors: mod_authors, mod_description: mod_description,
-        minecraft_version_range: minecraft_version_range, forge_version_range: forge_version_range,
-        loader_version_range: loader_version_range]
+
 processResources {
     from ('src/main/java') {
         include '**/*.json'

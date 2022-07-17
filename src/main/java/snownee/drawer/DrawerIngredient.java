@@ -11,14 +11,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -127,8 +126,8 @@ public class DrawerIngredient extends Ingredient {
 			list.add(stack);
 			//}
 
-			if (list.size() == 0 && !ForgeConfig.SERVER.treatEmptyTagsAsAir.get()) {
-				list.add(new ItemStack(Blocks.BARRIER).setHoverName(new TextComponent("Empty Tag: " + ModTags.DRAWERS.location().toString())));
+			if (list.size() == 0) {
+				list.add(new ItemStack(Blocks.BARRIER).setHoverName(Component.literal("Empty Tag: " + ModTags.DRAWERS.location())));
 			}
 			return list;
 		}
