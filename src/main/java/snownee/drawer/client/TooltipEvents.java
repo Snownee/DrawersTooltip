@@ -73,7 +73,7 @@ public final class TooltipEvents {
 		} else {
 			lines.add(Either.right(new ClientDrawerTooltip(contents)));
 		}
-		event.getTooltipElements().addAll(3, lines);
+		event.getTooltipElements().addAll(Math.min(3, event.getTooltipElements().size()), lines);
 	}
 
 	public static List<Object2IntMap.Entry<ItemStack>> getContents(ItemStack drawer) {
