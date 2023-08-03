@@ -2,15 +2,12 @@ package snownee.drawer.client;
 
 import java.util.List;
 
-import com.jaquadro.minecraft.storagedrawers.client.renderer.StorageRenderItem;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.jaquadro.minecraft.storagedrawers.client.gui.StorageGuiGraphics;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -37,26 +34,32 @@ public class ClientDrawerTooltip implements TooltipComponent, ClientTooltipCompo
 	}
 
 	@Override
-	public void renderImage(Font font, int x, int y, PoseStack poseStack, ItemRenderer itemRenderer) {
+	public void renderImage(Font font, int x, int y, GuiGraphics guiGraphics) {
 		int i = contents.size();
 		int j = 1;
 		boolean flag = false;
 		int k = 0;
 
+		StorageGuiGraphics itemRenderer = TooltipEvents.storageItemRender;
+		itemRenderer.pose().pushPose();
+		itemRenderer.pose().mulPoseMatrix(guiGraphics.pose().last().pose());
+
 		for (int l = 0; l < j; ++l) {
 			for (int i1 = 0; i1 < i; ++i1) {
 				int j1 = x + i1 * 18 + 1;
 				int k1 = y + l * 20 + 1;
-				renderSlot(j1, k1, k++, flag, font, poseStack, TooltipEvents.storageItemRender);
+				renderSlot(j1, k1, k++, flag, font, guiGraphics, itemRenderer);
 			}
 		}
 
 		if (Config.drawBorder) {
-			drawBorder(x, y, i, j, poseStack);
+			drawBorder(x, y, i, j, guiGraphics);
 		}
+
+		itemRenderer.pose().popPose();
 	}
 
-	private void renderSlot(int x, int y, int slot, boolean p_194030_, Font font, PoseStack poseStack, StorageRenderItem itemRenderer) {
+	private void renderSlot(int x, int y, int slot, boolean p_194030_, Font font, GuiGraphics poseStack, StorageGuiGraphics itemRenderer) {
 		if (slot >= contents.size()) {
 			if (Config.drawSlot) {
 				blit(poseStack, x, y, p_194030_ ? Texture.BLOCKED_SLOT : Texture.SLOT);
@@ -70,14 +73,12 @@ public class ClientDrawerTooltip implements TooltipComponent, ClientTooltipCompo
 				blit(poseStack, x, y, Texture.SLOT);
 			}
 			itemRenderer.overrideStack = itemstack;
-			itemRenderer.renderAndDecorateItem(poseStack, itemstack, x + 1, y + 1, slot);
-			//			itemRenderer.blitOffset += 500;
-			itemRenderer.renderGuiItemDecorations(poseStack, font, itemstack, x + 1, y + 1, null);
-			//			itemRenderer.blitOffset -= 500;
+			itemRenderer.renderItem(itemstack, x + 1, y + 1, slot);
+			itemRenderer.renderItemDecorations(font, itemstack, x + 1, y + 1, null);
 		}
 	}
 
-	private void drawBorder(int p_194020_, int p_194021_, int p_194022_, int p_194023_, PoseStack p_194024_) {
+	private void drawBorder(int p_194020_, int p_194021_, int p_194022_, int p_194023_, GuiGraphics p_194024_) {
 		blit(p_194024_, p_194020_, p_194021_, Texture.BORDER_CORNER_TOP);
 		blit(p_194024_, p_194020_ + p_194022_ * 18 + 1, p_194021_, Texture.BORDER_CORNER_TOP);
 
@@ -95,9 +96,8 @@ public class ClientDrawerTooltip implements TooltipComponent, ClientTooltipCompo
 		blit(p_194024_, p_194020_ + p_194022_ * 18 + 1, p_194021_ + p_194023_ * 20, Texture.BORDER_CORNER_BOTTOM);
 	}
 
-	private void blit(PoseStack p_276033_, int p_276062_, int p_276063_, Texture p_276044_) {
-		RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
-		GuiComponent.blit(p_276033_, p_276062_, p_276063_, 0, (float) p_276044_.x, (float) p_276044_.y, p_276044_.w, p_276044_.h, 128, 128);
+	private void blit(GuiGraphics p_281273_, int p_282428_, int p_281897_, Texture p_281917_) {
+		p_281273_.blit(TEXTURE_LOCATION, p_282428_, p_281897_, 0, (float) p_281917_.x, (float) p_281917_.y, p_281917_.w, p_281917_.h, 128, 128);
 	}
 
 	enum Texture {

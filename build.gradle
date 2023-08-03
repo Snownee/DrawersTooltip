@@ -197,11 +197,11 @@ dependencies {
     //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 	
-    implementation fg.deobf("curse.maven:storage-drawers-223852:4663000")
+    implementation fg.deobf("curse.maven:storage-drawers-223852:4668552")
     //implementation fg.deobf("curse.maven:jei-238222:3680288")
-    implementation fg.deobf("curse.maven:jade-324717:4649113")
-    implementation fg.deobf("curse.maven:kiwi-303657:4501836")
-    annotationProcessor "curse.maven:kiwi-303657:4501836"
+    implementation fg.deobf("curse.maven:jade-324717:4678842")
+    implementation fg.deobf("curse.maven:kiwi-303657:4592974")
+    annotationProcessor "curse.maven:kiwi-303657:4592974"
 
     // Examples using mod jars from ./libs
     //implementation fg.deobf("libs:Kiwi-1.18:5.0.0")
@@ -282,7 +282,7 @@ unifiedPublishing {
         version = project.mod_version // Optional, Inferred from project by default
         changelog = file("CHANGELOG.md").exists() ? file("CHANGELOG.md").text : "" // Optional, in markdown format
         releaseType = "release" // Optional, use "release", "beta" or "alpha"
-        gameVersions = ["1.19.4"]
+        gameVersions = ["1.20.1"]
         gameLoaders = ["forge"]
 
         mainPublication tasks.jar // Declares the publicated jar

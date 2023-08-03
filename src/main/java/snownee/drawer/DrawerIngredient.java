@@ -81,7 +81,7 @@ public class DrawerIngredient extends Ingredient {
 
 		@Override
 		public DrawerIngredient parse(JsonObject json) {
-			Ingredient ingredient = CraftingHelper.getIngredient(GsonHelper.getAsJsonObject(json, "content"));
+			Ingredient ingredient = CraftingHelper.getIngredient(GsonHelper.getAsJsonObject(json, "content"), false);
 			int amount = GsonHelper.getAsInt(json, "amount");
 			return new DrawerIngredient(ingredient, amount);
 		}

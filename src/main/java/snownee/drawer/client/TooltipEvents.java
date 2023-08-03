@@ -6,20 +6,21 @@ import java.util.List;
 import java.util.function.Function;
 
 import com.google.common.collect.Lists;
-import com.jaquadro.minecraft.storagedrawers.client.renderer.StorageRenderItem;
+import com.jaquadro.minecraft.storagedrawers.client.gui.StorageGuiGraphics;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.datafixers.util.Either;
 
 import it.unimi.dsi.fastutil.objects.AbstractObject2IntMap.BasicEntry;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent.GatherComponents;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,20 +36,14 @@ public final class TooltipEvents {
 
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat();
 	private static boolean tagsUpdated;
-	public static StorageRenderItem storageItemRender;
-
-	@SubscribeEvent
-	public static void init(RegisterClientReloadListenersEvent event) {
-		Minecraft minecraft = Minecraft.getInstance();
-		storageItemRender = new StorageRenderItem(minecraft, minecraft.getTextureManager(), minecraft.getModelManager(), minecraft.getItemColors());
-		event.registerReloadListener(storageItemRender);
-		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TooltipEvents::onTooltip);
-		MinecraftForge.EVENT_BUS.addListener(TooltipEvents::onTagsUpdated);
-	}
+	public static StorageGuiGraphics storageItemRender;
 
 	@SubscribeEvent
 	public static void registerClientTooltipComponent(RegisterClientTooltipComponentFactoriesEvent event) {
 		event.register(ClientDrawerTooltip.class, Function.identity());
+		storageItemRender = new StorageGuiGraphics(Minecraft.getInstance(), MultiBufferSource.immediate(Tesselator.getInstance().getBuilder()));
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TooltipEvents::onTooltip);
+		MinecraftForge.EVENT_BUS.addListener(TooltipEvents::onTagsUpdated);
 	}
 
 	private static void onTagsUpdated(TagsUpdatedEvent event) {
