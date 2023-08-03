@@ -19,7 +19,6 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent.GatherComponents;
@@ -31,18 +30,17 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import snownee.drawer.ModTags;
 
-@OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT, bus = Bus.MOD)
 public final class TooltipEvents {
 
-	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###");
+	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat();
 	private static boolean tagsUpdated;
 	public static StorageRenderItem storageItemRender;
 
 	@SubscribeEvent
 	public static void init(RegisterClientReloadListenersEvent event) {
 		Minecraft minecraft = Minecraft.getInstance();
-		storageItemRender = new StorageRenderItem(minecraft.getTextureManager(), minecraft.getModelManager(), minecraft.getItemColors());
+		storageItemRender = new StorageRenderItem(minecraft, minecraft.getTextureManager(), minecraft.getModelManager(), minecraft.getItemColors());
 		event.registerReloadListener(storageItemRender);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TooltipEvents::onTooltip);
 		MinecraftForge.EVENT_BUS.addListener(TooltipEvents::onTagsUpdated);
